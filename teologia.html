@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teologia e Histórias Bíblicas - Paróquia Santa Maria Goretti</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        .story-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--gold);
+        }
+
+        .story-card h3 {
+            color: var(--dark);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .story-card h4 {
+            color: var(--gold-dark);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .story-card p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .reference {
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            text-align: right;
+            display: block;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="index.html" class="logo">Paróquia <span>SMG</span></a>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Início</a></li>
+                <li><a href="novenas.html">Novenas</a></li>
+                <li><a href="oracoes.html">Orações</a></li>
+                <li><a href="teologia.html" style="color: var(--gold);">Teologia</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero"
+        style="height: 40vh; background-image: url('https://images.unsplash.com/photo-1504052434569-70ad5836ab65?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+        <div class="hero-content">
+            <h1>Teologia e Histórias</h1>
+            <p>Conheça as raízes da nossa fé.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+
+            <div class="story-card">
+                <h3>O Primeiro Rei de Israel: Saul</h3>
+                <p>O povo de Israel pediu um rei para governá-los, como as outras nações. Deus, através do profeta
+                    Samuel, ungiu Saul, da tribo de Benjamim, como o primeiro rei. Saul era alto e belo, mas seu reinado
+                    foi marcado por desobediências a Deus. Ele começou bem, mas o poder e o medo o afastaram dos
+                    caminhos do Senhor, levando-o a perder o favor divino e o trono para Davi.</p>
+                <span class="reference">Referência: 1 Samuel 8-15</span>
+            </div>
+
+            <div class="story-card">
+                <h3>O Rei Davi</h3>
+                <p>Davi, um jovem pastor de ovelhas, foi escolhido por Deus para suceder Saul. Conhecido por sua coragem
+                    ao derrotar o gigante Golias e por sua habilidade com a harpa, Davi tornou-se o maior rei de Israel.
+                    Ele unificou as tribos, conquistou Jerusalém e trouxe a Arca da Aliança. Apesar de seus pecados,
+                    Davi sempre se arrependeu e buscou o coração de Deus, sendo autor de muitos Salmos.</p>
+                <span class="reference">Referência: 1 Samuel 16 - 2 Samuel 24</span>
+            </div>
+
+            <div class="story-card">
+                <h3>Moisés e o Êxodo</h3>
+                <p>Moisés foi escolhido por Deus para libertar o povo hebreu da escravidão no Egito. Após as dez pragas,
+                    ele conduziu o povo através do Mar Vermelho em direção à Terra Prometida. No Monte Sinai, recebeu as
+                    Tábuas da Lei com os Dez Mandamentos, estabelecendo a aliança entre Deus e Israel. Moisés é
+                    considerado o maior profeta do Antigo Testamento.</p>
+                <span class="reference">Referência: Êxodo, Levítico, Números e Deuteronômio</span>
+            </div>
+
+            <div class="story-card">
+                <h3>As 12 Tribos de Israel</h3>
+                <p>As doze tribos descendem dos doze filhos de Jacó (que foi renomeado Israel por Deus). São elas:
+                    Rúben, Simeão, Levi, Judá, Dã, Naftali, Gade, Aser, Issacar, Zebulom, José (que se dividiu em Efraim
+                    e Manassés) e Benjamim. A tribo de Levi foi separada para o serviço sacerdotal e não recebeu terras,
+                    mas cidades espalhadas entre as outras tribos.</p>
+                <span class="reference">Referência: Gênesis 29-30, 35, 49</span>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Paróquia Santa Maria Goretti.</p>
+        </div>
+    </footer>
+
+    <button id="install-btn">Instalar App</button>
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>

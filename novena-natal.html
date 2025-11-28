@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novena de Natal - Paróquia Santa Maria Goretti</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        .accordion {
+            background-color: #fff;
+            color: var(--dark);
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 1.1rem;
+            transition: 0.4s;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+            font-family: "Playfair Display", serif;
+        }
+
+        .accordion:hover,
+        .accordion.active {
+            background-color: var(--gold-light);
+        }
+
+        .panel {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            border-bottom: 1px solid #eee;
+        }
+
+        .panel p {
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header & Nav -->
+    <header class="header">
+        <a href="index.html" class="logo">Paróquia <span>SMG</span></a>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Início</a></li>
+                <li><a href="novenas.html">Novenas</a></li>
+                <li><a href="oracoes.html">Orações</a></li>
+                <li><a href="teologia.html">Teologia</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero"
+        style="height: 40vh; background-image: url('https://images.unsplash.com/photo-1512389142860-9c449e58a543?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+        <div class="hero-content">
+            <h1>Novena de Natal</h1>
+            <p>Preparando o caminho para o Senhor.</p>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="section">
+        <div class="container">
+            <div class="liturgy-card">
+                <h3>Oração Inicial</h3>
+                <p>Senhor Jesus, nós vos agradecemos por terdes vindo ao mundo para nos salvar. Preparai nossos corações
+                    para o vosso nascimento. Que a vossa luz ilumine nossas vidas e nossas famílias. Amém.</p>
+
+                <div style="margin: 2rem 0;">
+                    <button class="accordion">1º Dia - A Anunciação</button>
+                    <div class="panel">
+                        <p>O Anjo Gabriel anuncia a Maria. "Ave, cheia de graça, o Senhor é contigo."</p>
+                        <p><strong>Reflexão:</strong> Maria disse sim ao plano de Deus. E nós, estamos dispostos a dizer
+                            sim?</p>
+                        <p><em>(Rezar um Pai Nosso e uma Ave Maria)</em></p>
+                    </div>
+
+                    <button class="accordion">2º Dia - A Visitação</button>
+                    <div class="panel">
+                        <p>Maria visita Isabel. "Bendita és tu entre as mulheres."</p>
+                        <p><strong>Reflexão:</strong> A alegria do encontro e do serviço ao próximo.</p>
+                        <p><em>(Rezar um Pai Nosso e uma Ave Maria)</em></p>
+                    </div>
+
+                    <button class="accordion">3º Dia - O Recenseamento</button>
+                    <div class="panel">
+                        <p>José e Maria viajam para Belém. A obediência às leis e a confiança na providência.</p>
+                        <p><strong>Reflexão:</strong> Mesmo nas dificuldades da viagem, a Sagrada Família permanece
+                            unida.</p>
+                        <p><em>(Rezar um Pai Nosso e uma Ave Maria)</em></p>
+                    </div>
+
+                    <button class="accordion">4º Dia - A Procura de Hospedagem</button>
+                    <div class="panel">
+                        <p>"Não havia lugar para eles na estalagem."</p>
+                        <p><strong>Reflexão:</strong> Quantas vezes fechamos a porta do nosso coração para Jesus?</p>
+                        <p><em>(Rezar um Pai Nosso e uma Ave Maria)</em></p>
+                    </div>
+
+                    <button class="accordion">5º Dia - A Gruta de Belém</button>
+                    <div class="panel">
+                        <p>Jesus nasce na pobreza de uma manjedoura.</p>
+                        <p><strong>Reflexão:</strong> A humildade de Deus que se faz pequeno por nós.</p>
+                        <p><em>(Rezar um Pai Nosso e uma Ave Maria)</em></p>
+                    </div>
+
+                    <button class="accordion">6º Dia - Os Anjos e os Pastores</button>
+                    <div class="panel">
+                        <p>Os anjos anunciam a boa nova aos pastores.</p>
+                        <p><strong>Reflexão:</strong> A mensagem de Deus é para todos, especialmente os simples.</p>
+                        <p><em>(Rezar um Pai Nosso e uma Ave Maria)</em></p>
+                    </div>
+
+                    <button class="accordion">7º Dia - A Adoração dos Magos</button>
+                    <div class="panel">
+                        <p>Os reis magos seguem a estrela para adorar o Menino.</p>
+                        <p><strong>Reflexão:</strong> Busquemos a Deus com perseverança e ofereçamos nossos dons.</p>
+                        <p><em>(Rezar um Pai Nosso e uma Ave Maria)</em></p>
+                    </div>
+
+                    <button class="accordion">8º Dia - A Fuga para o Egito</button>
+                    <div class="panel">
+                        <p>A Sagrada Família foge para proteger o Menino.</p>
+                        <p><strong>Reflexão:</strong> Deus protege aqueles que confiam Nele.</p>
+                        <p><em>(Rezar um Pai Nosso e uma Ave Maria)</em></p>
+                    </div>
+
+                    <button class="accordion">9º Dia - O Nascimento</button>
+                    <div class="panel">
+                        <p>O Verbo se fez carne e habitou entre nós.</p>
+                        <p><strong>Reflexão:</strong> Celebremos com alegria a vinda do Salvador.</p>
+                        <p><em>(Rezar um Pai Nosso e uma Ave Maria)</em></p>
+                    </div>
+                </div>
+
+                <h3>Oração Final</h3>
+                <p>Ó Deus, que iluminastes esta noite santa com o nascimento de Cristo, concedei que, conhecendo na
+                    terra os mistérios da sua luz, possamos gozar no céu a plenitude de sua glória. Por Cristo, nosso
+                    Senhor. Amém.</p>
+                <div class="center" style="margin-top: 2rem;">
+                    <button
+                        onclick="openShareModal('Novena de Natal', 'Hoje rezei a Novena de Natal na Paróquia Santa Maria Goretti. Que o Menino Jesus ilumine nossos caminhos!')"
+                        class="btn" style="background: #E1306C; border-color: #E1306C;">Compartilhar Benção</button>
+                </div>
+            </div>
+
+            <div class="center" style="margin-top: 3rem;">
+                <a href="novenas.html" class="btn btn-outline"
+                    style="color: var(--dark); border-color: var(--gold);">Voltar para Novenas</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Paróquia Santa Maria Goretti.</p>
+        </div>
+    </footer>
+
+    <button id="install-btn">Instalar App</button>
+    <script src="js/app.js"></script>
+    <script src="js/share.js"></script>
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

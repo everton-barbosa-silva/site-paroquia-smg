@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Católico - Paróquia Santa Maria Goretti</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        .quiz-container {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .question-text {
+            font-size: 1.5rem;
+            font-family: "Playfair Display", serif;
+            color: var(--dark);
+            margin-bottom: 2rem;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .option-btn {
+            background: var(--light);
+            border: 2px solid #eee;
+            padding: 1rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: "Outfit", sans-serif;
+            color: var(--text);
+        }
+
+        .option-btn:hover {
+            border-color: var(--gold);
+            background: #fff;
+        }
+
+        .option-btn.correct {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .option-btn.wrong {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        .score-display {
+            font-size: 2rem;
+            color: var(--gold);
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        #next-btn {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="index.html" class="logo">Paróquia <span>SMG</span></a>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Início</a></li>
+                <li><a href="novenas.html">Novenas</a></li>
+                <li><a href="oracoes.html">Orações</a></li>
+                <li><a href="teologia.html">Teologia</a></li>
+                <li><a href="quiz.html" style="color: var(--gold);">Quiz</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero"
+        style="height: 40vh; background-image: url('https://images.unsplash.com/photo-1490730141103-6cac27aaab94?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+        <div class="hero-content">
+            <h1>Quiz Católico</h1>
+            <p>Teste seus conhecimentos sobre a fé.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+
+            <div id="quiz-box" class="quiz-container">
+                <div id="question-container">
+                    <h2 class="question-text" id="question">Carregando pergunta...</h2>
+                    <div class="options-grid" id="options">
+                        <!-- Options will be injected here -->
+                    </div>
+                </div>
+
+                <div id="result-container" class="hidden">
+                    <h2>Resultado Final</h2>
+                    <div class="score-display" id="score">0/0</div>
+                    <p id="feedback-msg">Parabéns!</p>
+
+                    <div id="rating-display" style="margin: 2rem 0;">
+                        <p>O que achou do Quiz?</p>
+                        <div class="stars" style="font-size: 2rem; cursor: pointer; color: #ddd;">
+                            <span onclick="rateQuiz(1)" onmouseover="this.style.color='gold'"
+                                style="transition:0.2s">★</span>
+                            <span onclick="rateQuiz(2)" onmouseover="this.style.color='gold'"
+                                style="transition:0.2s">★</span>
+                            <span onclick="rateQuiz(3)" onmouseover="this.style.color='gold'"
+                                style="transition:0.2s">★</span>
+                            <span onclick="rateQuiz(4)" onmouseover="this.style.color='gold'"
+                                style="transition:0.2s">★</span>
+                            <span onclick="rateQuiz(5)" onmouseover="this.style.color='gold'"
+                                style="transition:0.2s">★</span>
+                        </div>
+                    </div>
+
+                    <button onclick="shareResult()" class="btn btn-outline"
+                        style="border-color: var(--gold); color: var(--gold); margin-right: 1rem;">Compartilhar
+                        Resultado</button>
+                    <button onclick="location.reload()" class="btn">Jogar Novamente</button>
+                </div>
+
+                <button id="next-btn" class="btn hidden">Próxima Pergunta</button>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Paróquia Santa Maria Goretti.</p>
+        </div>
+    </footer>
+
+    <button id="install-btn">Instalar App</button>
+    <script src="js/app.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+
+</html>

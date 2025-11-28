@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novena de São José - Paróquia Santa Maria Goretti</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        .accordion {
+            background-color: #fff;
+            color: var(--dark);
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 1.1rem;
+            transition: 0.4s;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+            font-family: "Playfair Display", serif;
+        }
+
+        .accordion:hover,
+        .accordion.active {
+            background-color: var(--gold-light);
+        }
+
+        .panel {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            border-bottom: 1px solid #eee;
+        }
+
+        .panel p {
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="index.html" class="logo">Paróquia <span>SMG</span></a>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Início</a></li>
+                <li><a href="novenas.html">Novenas</a></li>
+                <li><a href="oracoes.html">Orações</a></li>
+                <li><a href="teologia.html">Teologia</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero"
+        style="height: 40vh; background-image: url('https://images.unsplash.com/photo-1544179559-032b931c661e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+        <div class="hero-content">
+            <h1>Novena de São José</h1>
+            <p>Patrono da Igreja e modelo de pai.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="liturgy-card">
+                <h3>Oração Inicial</h3>
+                <p>Glorioso São José, esposo de Maria, concedei-nos a vossa proteção paterna, nós vos suplicamos pelo
+                    Coração de Jesus Cristo. Vós, cujo poder se estende a todas as nossas necessidades e sabeis tornar
+                    possíveis as coisas mais impossíveis, volvei os vossos olhos de pai sobre os interesses dos vossos
+                    filhos.</p>
+
+                <h4>Oração para todos os dias</h4>
+                <p>Ó glorioso São José, a quem foi dado o poder de tornar possível as coisas humanamente impossíveis,
+                    vinde em nosso auxílio nas dificuldades em que nos achamos. Tomai sob vossa proteção a causa
+                    importante que vos confiamos, para que tenha uma solução favorável. Ó Pai muito amado, em vós
+                    depositamos toda a nossa confiança.</p>
+
+                <div style="margin: 2rem 0;">
+                    <button class="accordion">1º Dia - O Pai Adotivo</button>
+                    <div class="panel">
+                        <p>São José, pai adotivo de Jesus, fostes escolhido por Deus para proteger o Filho Unigênito.
+                            Ensinai-nos a proteger a vida e a fé em nossas famílias.</p>
+                        <p><em>(Rezar um Pai Nosso, uma Ave Maria e um Glória)</em></p>
+                    </div>
+
+                    <button class="accordion">2º Dia - O Esposo de Maria</button>
+                    <div class="panel">
+                        <p>São José, castíssimo esposo de Maria, ajudai os casais a viverem no amor e na fidelidade,
+                            respeitando-se mutuamente como dom de Deus.</p>
+                        <p><em>(Rezar um Pai Nosso, uma Ave Maria e um Glória)</em></p>
+                    </div>
+
+                    <button class="accordion">3º Dia - O Homem Justo</button>
+                    <div class="panel">
+                        <p>São José, chamado "justo" pelas Escrituras, guiai-nos no caminho da retidão e da verdade,
+                            para que sejamos íntegros diante de Deus e dos homens.</p>
+                        <p><em>(Rezar um Pai Nosso, uma Ave Maria e um Glória)</em></p>
+                    </div>
+
+                    <button class="accordion">4º Dia - O Trabalhador</button>
+                    <div class="panel">
+                        <p>São José Operário, modelo dos trabalhadores, abençoai nosso trabalho diário para que ele seja
+                            fonte de sustento e santificação.</p>
+                        <p><em>(Rezar um Pai Nosso, uma Ave Maria e um Glória)</em></p>
+                    </div>
+
+                    <button class="accordion">5º Dia - O Silêncio</button>
+                    <div class="panel">
+                        <p>São José, homem do silêncio e da escuta, ensinai-nos a ouvir a voz de Deus em meio aos ruídos
+                            do mundo.</p>
+                        <p><em>(Rezar um Pai Nosso, uma Ave Maria e um Glória)</em></p>
+                    </div>
+
+                    <button class="accordion">6º Dia - A Obediência</button>
+                    <div class="panel">
+                        <p>São José, obediente aos desígnios de Deus, dai-nos um coração dócil para aceitar a vontade do
+                            Pai, mesmo quando não compreendemos.</p>
+                        <p><em>(Rezar um Pai Nosso, uma Ave Maria e um Glória)</em></p>
+                    </div>
+
+                    <button class="accordion">7º Dia - A Fuga para o Egito</button>
+                    <div class="panel">
+                        <p>São José, protetor dos exilados, olhai por todos os que sofrem longe de sua pátria e protegei
+                            nossas famílias de todos os perigos.</p>
+                        <p><em>(Rezar um Pai Nosso, uma Ave Maria e um Glória)</em></p>
+                    </div>
+
+                    <button class="accordion">8º Dia - A Vida em Nazaré</button>
+                    <div class="panel">
+                        <p>São José, chefe da Sagrada Família, fazei de nossos lares um novo Nazaré, onde reinem a paz,
+                            a oração e o amor.</p>
+                        <p><em>(Rezar um Pai Nosso, uma Ave Maria e um Glória)</em></p>
+                    </div>
+
+                    <button class="accordion">9º Dia - O Padroeiro da Boa Morte</button>
+                    <div class="panel">
+                        <p>São José, que morrestes nos braços de Jesus e Maria, assisti-nos em nossa hora derradeira e
+                            concedei-nos uma santa morte.</p>
+                        <p><em>(Rezar um Pai Nosso, uma Ave Maria e um Glória)</em></p>
+                    </div>
+                </div>
+
+                <h3>Oração Final</h3>
+                <p>São José, pai adotivo de Jesus, rogai por nós.</p>
+                <div class="center" style="margin-top: 2rem;">
+                    <button
+                        onclick="openShareModal('Novena de São José', 'Hoje rezei a Novena de São José na Paróquia Santa Maria Goretti. São José, valei-nos!')"
+                        class="btn" style="background: #E1306C; border-color: #E1306C;">Compartilhar Benção</button>
+                </div>
+            </div>
+
+            <div class="center" style="margin-top: 3rem;">
+                <a href="novenas.html" class="btn btn-outline"
+                    style="color: var(--dark); border-color: var(--gold);">Voltar para Novenas</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Paróquia Santa Maria Goretti.</p>
+        </div>
+    </footer>
+
+    <button id="install-btn">Instalar App</button>
+    <script src="js/app.js"></script>
+    <script src="js/share.js"></script>
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
