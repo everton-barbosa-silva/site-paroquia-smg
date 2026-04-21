@@ -58,9 +58,39 @@ function checkbox_marcado(array $dados, string $chave): bool
     return (($dados[$chave] ?? '0') === '1');
 }
 
+function montar_link_whatsapp_batismo(
+  string $nomeContato,
+  string $telefone,
+  string $email,
+  string $nomeInteressado,
+  string $mensagem,
+  string $protocolo,
+  array $cicloBatismo
+): string {
+  $linhas = [
+    'Ola, secretaria da Paroquia Santa Maria Goretti.',
+    'Recebi uma nova inscricao no curso de batismo pelo site.',
+    '',
+    'Protocolo: #' . $protocolo,
+    'Responsavel: ' . $nomeContato,
+    'Crianca: ' . $nomeInteressado,
+    'WhatsApp: ' . $telefone,
+    'E-mail: ' . $email,
+    'Curso previsto: ' . $cicloBatismo['curso']->format('d/m/Y'),
+    'Batismo previsto: ' . $cicloBatismo['batismo']->format('d/m/Y'),
+  ];
+
+  if ($mensagem !== '') {
+    $linhas[] = 'Observacoes: ' . $mensagem;
+  }
+
+  return 'https://wa.me/551142589355?text=' . rawurlencode(implode("\n", $linhas));
+}
+
 $sucesso = '';
 $erro = '';
 $protocolo = '';
+$whatsappRedirectUrl = '';
 $dados = $_POST;
 $assuntoSelecionado = (string) ($dados['assunto'] ?? '');
 
@@ -167,6 +197,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $protocolo = str_pad((string) $pdo->lastInsertId(), 5, '0', STR_PAD_LEFT);
         $sucesso = 'Pedido enviado com sucesso. A secretaria vai retornar pelos contatos informados.';
+
+        if ($assuntoSelecionado === 'batismo') {
+          $sucesso = 'Inscricao enviada com sucesso. Voce sera encaminhado ao WhatsApp da paroquia com a mensagem pronta.';
+          $whatsappRedirectUrl = montar_link_whatsapp_batismo(
+            $nomeContato,
+            $telefone,
+            $email,
+            $nomeInteressado,
+            $mensagem,
+            $protocolo,
+            $cicloBatismo
+          );
+        }
+
         $dados = [];
         $assuntoSelecionado = '';
     } catch (Throwable $e) {
@@ -413,6 +457,25 @@ if ($erro !== '' && $assuntoSelecionado !== '') {
       padding: .2rem .7rem;
       font-weight: 700;
     }
+    .sec-whatsapp-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .55rem;
+      margin-top: 1rem;
+      padding: .85rem 1.2rem;
+      border-radius: 999px;
+      background: #25d366;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(37, 211, 102, .22);
+    }
+    .sec-whatsapp-note {
+      margin-top: .85rem;
+      color: #666;
+      font-size: .85rem;
+    }
   </style>
 </head>
 <body>
@@ -452,6 +515,12 @@ if ($erro !== '' && $assuntoSelecionado !== '') {
           <span class="protocolo-tag">Protocolo #<?= h($protocolo) ?></span>
         <?php endif; ?>
       </div>
+      <?php if ($whatsappRedirectUrl !== ''): ?>
+        <a href="<?= h($whatsappRedirectUrl) ?>" class="sec-whatsapp-cta" target="_blank" rel="noopener noreferrer">
+          Abrir WhatsApp da Paroquia
+        </a>
+        <p class="sec-whatsapp-note">Se o WhatsApp nao abrir automaticamente, use o botao acima.</p>
+      <?php endif; ?>
       <a href="fale-com-a-secretaria.php" class="sec-back-link">&#8592; Voltar ao menu</a>
     </div>
   </div>
@@ -665,5 +734,12 @@ if ($erro !== '' && $assuntoSelecionado !== '') {
   </a>
 
   <script src="js/app.js"></script>
+  <?php if ($whatsappRedirectUrl !== ''): ?>
+  <script>
+    window.setTimeout(function () {
+      window.location.href = <?= json_encode($whatsappRedirectUrl, JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>;
+    }, 900);
+  </script>
+  <?php endif; ?>
 </body>
 </html>
