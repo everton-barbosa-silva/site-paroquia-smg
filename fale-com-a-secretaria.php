@@ -3,28 +3,6 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/auth/auth.php';
 
-function garantir_tabela_atendimentos_secretaria(PDO $pdo): void
-{
-    $pdo->exec(
-        "CREATE TABLE IF NOT EXISTS secretaria_atendimentos (
-            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            assunto ENUM('item_religioso', 'batismo', 'casamento') NOT NULL,
-            nome_contato VARCHAR(160) NOT NULL,
-            email VARCHAR(190) NOT NULL,
-            telefone VARCHAR(50) NOT NULL,
-            nome_interessado VARCHAR(180) NULL,
-            item_desejado VARCHAR(180) NULL,
-            mensagem TEXT NULL,
-            checklist_json TEXT NULL,
-            deseja_agendar TINYINT(1) NOT NULL DEFAULT 0,
-            status VARCHAR(40) NOT NULL DEFAULT 'novo',
-            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            INDEX idx_assunto (assunto),
-            INDEX idx_status (status)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci"
-    );
-}
-
 function proximo_ciclo_batismo(): array
 {
     $hoje = new DateTimeImmutable('today');
@@ -58,6 +36,20 @@ function checkbox_marcado(array $dados, string $chave): bool
     return (($dados[$chave] ?? '0') === '1');
 }
 
+function link_whatsapp(string $mensagem): string
+{
+  return 'https://wa.me/551142589355?text=' . rawurlencode($mensagem);
+}
+
+function montar_mensagem_whatsapp(array $linhas, string $mensagemExtra = ''): string
+{
+  if ($mensagemExtra !== '') {
+    $linhas[] = 'Observacoes: ' . $mensagemExtra;
+  }
+
+  return implode("\n", $linhas);
+}
+
 function resumo_contagem_batismo(DateTimeImmutable $dataBatismo): string
 {
     $hoje = new DateTimeImmutable('today');
@@ -82,31 +74,60 @@ function montar_link_whatsapp_batismo(
   string $mensagem,
   array $cicloBatismo
 ): string {
-  $linhas = [
-    'Ola, secretaria da Paroquia Santa Maria Goretti.',
-    'Gostaria de fazer a inscricao no curso de batismo.',
+  return link_whatsapp(montar_mensagem_whatsapp([
+    'Prezada secretaria, solicito inscricao no curso de batismo.',
     '',
     'Responsavel: ' . $nomeContato,
-    'Nome da crianca: ' . $nomeInteressado,
+    'Crianca: ' . $nomeInteressado,
     'WhatsApp: ' . $telefone,
     'E-mail: ' . $email,
-    'Data do curso: ' . $cicloBatismo['curso']->format('d/m/Y'),
-    'Data do batismo: ' . $cicloBatismo['batismo']->format('d/m/Y') . ' as 10h',
-  ];
+    'Curso: ' . $cicloBatismo['curso']->format('d/m/Y'),
+    'Batismo: ' . $cicloBatismo['batismo']->format('d/m/Y') . ' as 10h',
+    '',
+    'Aguardo orientacoes. Obrigado.'
+  ], $mensagem));
+}
 
-  if ($mensagem !== '') {
-    $linhas[] = 'Observacoes: ' . $mensagem;
-  }
+function montar_link_whatsapp_casamento(
+  string $nomeContato,
+  string $telefone,
+  string $email,
+  string $nomeInteressado,
+  string $mensagem
+): string {
+  return link_whatsapp(montar_mensagem_whatsapp([
+    'Prezada secretaria, solicito atendimento para casamento.',
+    '',
+    'Contato: ' . $nomeContato,
+    'Noivos: ' . $nomeInteressado,
+    'WhatsApp: ' . $telefone,
+    'E-mail: ' . $email,
+    '',
+    'Aguardo orientacoes. Obrigado.'
+  ], $mensagem));
+}
 
-  $linhas[] = '';
-  $linhas[] = 'Aguardo orientacoes sobre os proximos passos e documentos.';
-
-  return 'https://wa.me/551142589355?text=' . rawurlencode(implode("\n", $linhas));
+function montar_link_whatsapp_item_religioso(
+  string $nomeContato,
+  string $telefone,
+  string $email,
+  string $itemDesejado,
+  string $mensagem
+): string {
+  return link_whatsapp(montar_mensagem_whatsapp([
+    'Prezada secretaria, gostaria de solicitar um item religioso.',
+    '',
+    'Contato: ' . $nomeContato,
+    'Item desejado: ' . $itemDesejado,
+    'WhatsApp: ' . $telefone,
+    'E-mail: ' . $email,
+    '',
+    'Aguardo confirmacao de disponibilidade. Obrigado.'
+  ], $mensagem));
 }
 
 $sucesso = '';
 $erro = '';
-$protocolo = '';
 $whatsappRedirectUrl = '';
 $dados = $_POST;
 $assuntoSelecionado = (string) ($dados['assunto'] ?? '');
@@ -138,8 +159,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nomeInteressado = valor_campo($dados, 'nome_interessado');
         $itemDesejado = valor_campo($dados, 'item_desejado');
         $mensagem = valor_campo($dados, 'mensagem');
-        $desejaAgendar = (($dados['deseja_agendar'] ?? '0') === '1');
-
         if ($nomeContato === '' || $email === '' || $telefone === '') {
             throw new RuntimeException('Preencha nome, e-mail e telefone para a secretaria retornar.');
         }
@@ -152,8 +171,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (strlen($telefoneNumeros) < 10) {
             throw new RuntimeException('Informe um telefone com DDD para contato.');
         }
-
-        $checklist = [];
 
         if ($assuntoSelecionado === 'item_religioso') {
             if ($itemDesejado === '') {
@@ -172,6 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 throw new RuntimeException('Informe o nome da crianca que sera batizada.');
             }
 
+            $checklist = [];
             foreach ($checklistBatismo as $campo => $rotulo) {
                 $checklist[$campo] = [
                     'rotulo' => $rotulo,
@@ -188,44 +206,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if ($assuntoSelecionado === 'batismo') {
-          $sucesso = 'Inscricao preparada com sucesso. Voce sera encaminhado ao WhatsApp da paroquia.';
-          $whatsappRedirectUrl = montar_link_whatsapp_batismo(
-            $nomeContato,
-            $telefone,
-            $email,
-            $nomeInteressado,
-            $mensagem,
-            $cicloBatismo
-          );
-        } else {
-          $pdo = get_db_connection();
-          garantir_tabela_atendimentos_secretaria($pdo);
+            $sucesso = 'Mensagem preparada. Voce sera encaminhado ao WhatsApp da paroquia.';
+            $whatsappRedirectUrl = montar_link_whatsapp_batismo(
+                $nomeContato,
+                $telefone,
+                $email,
+                $nomeInteressado,
+                $mensagem,
+                $cicloBatismo
+            );
+        }
 
-          $stmt = $pdo->prepare(
-            'INSERT INTO secretaria_atendimentos (
-              assunto, nome_contato, email, telefone, nome_interessado, item_desejado,
-              mensagem, checklist_json, deseja_agendar, status
-            ) VALUES (
-              :assunto, :nome_contato, :email, :telefone, :nome_interessado, :item_desejado,
-              :mensagem, :checklist_json, :deseja_agendar, :status
-            )'
-          );
+        if ($assuntoSelecionado === 'casamento') {
+            $sucesso = 'Mensagem preparada. Voce sera encaminhado ao WhatsApp da paroquia.';
+            $whatsappRedirectUrl = montar_link_whatsapp_casamento(
+                $nomeContato,
+                $telefone,
+                $email,
+                $nomeInteressado,
+                $mensagem
+            );
+        }
 
-          $stmt->execute([
-            'assunto' => $assuntoSelecionado,
-            'nome_contato' => $nomeContato,
-            'email' => $email,
-            'telefone' => $telefone,
-            'nome_interessado' => $nomeInteressado !== '' ? $nomeInteressado : null,
-            'item_desejado' => $itemDesejado !== '' ? $itemDesejado : null,
-            'mensagem' => $mensagem !== '' ? $mensagem : null,
-            'checklist_json' => $checklist !== [] ? json_encode($checklist, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null,
-            'deseja_agendar' => $desejaAgendar ? 1 : 0,
-            'status' => 'novo',
-          ]);
-
-          $protocolo = str_pad((string) $pdo->lastInsertId(), 5, '0', STR_PAD_LEFT);
-          $sucesso = 'Pedido enviado com sucesso. A secretaria vai retornar pelos contatos informados.';
+        if ($assuntoSelecionado === 'item_religioso') {
+            $sucesso = 'Mensagem preparada. Voce sera encaminhado ao WhatsApp da paroquia.';
+            $whatsappRedirectUrl = montar_link_whatsapp_item_religioso(
+                $nomeContato,
+                $telefone,
+                $email,
+                $itemDesejado,
+                $mensagem
+            );
         }
 
         $dados = [];
@@ -464,16 +475,6 @@ if ($erro !== '' && $assuntoSelecionado !== '') {
     .alert { border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 1.5rem; font-size: .95rem; }
     .alert-success { background: #edfbf0; border: 1px solid #86efac; color: #166534; }
     .alert-error { background: #fff1f1; border: 1px solid #fca5a5; color: #991b1b; }
-    .protocolo-tag {
-      display: inline-block;
-      margin-top: .5rem;
-      background: #166534;
-      color: #fff;
-      border-radius: 6px;
-      font-size: .8rem;
-      padding: .2rem .7rem;
-      font-weight: 700;
-    }
     .sec-whatsapp-cta {
       display: inline-flex;
       align-items: center;
@@ -528,9 +529,6 @@ if ($erro !== '' && $assuntoSelecionado !== '') {
     <div class="sec-form-inner">
       <div class="alert alert-success">
         <?= h($sucesso) ?>
-        <?php if ($protocolo !== ''): ?>
-          <span class="protocolo-tag">Protocolo #<?= h($protocolo) ?></span>
-        <?php endif; ?>
       </div>
       <?php if ($whatsappRedirectUrl !== ''): ?>
         <a href="<?= h($whatsappRedirectUrl) ?>" class="sec-whatsapp-cta" target="_blank" rel="noopener noreferrer">
