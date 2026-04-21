@@ -58,31 +58,48 @@ function checkbox_marcado(array $dados, string $chave): bool
     return (($dados[$chave] ?? '0') === '1');
 }
 
+function resumo_contagem_batismo(DateTimeImmutable $dataBatismo): string
+{
+    $hoje = new DateTimeImmutable('today');
+    $dias = (int) $hoje->diff($dataBatismo)->format('%a');
+
+    if ($dias === 0) {
+        return 'O batismo acontece hoje.';
+    }
+
+    if ($dias === 1) {
+        return 'Falta 1 dia para o proximo batismo.';
+    }
+
+    return 'Faltam ' . $dias . ' dias para o proximo batismo.';
+}
+
 function montar_link_whatsapp_batismo(
   string $nomeContato,
   string $telefone,
   string $email,
   string $nomeInteressado,
   string $mensagem,
-  string $protocolo,
   array $cicloBatismo
 ): string {
   $linhas = [
     'Ola, secretaria da Paroquia Santa Maria Goretti.',
-    'Recebi uma nova inscricao no curso de batismo pelo site.',
+    'Gostaria de fazer a inscricao no curso de batismo.',
     '',
-    'Protocolo: #' . $protocolo,
     'Responsavel: ' . $nomeContato,
-    'Crianca: ' . $nomeInteressado,
+    'Nome da crianca: ' . $nomeInteressado,
     'WhatsApp: ' . $telefone,
     'E-mail: ' . $email,
-    'Curso previsto: ' . $cicloBatismo['curso']->format('d/m/Y'),
-    'Batismo previsto: ' . $cicloBatismo['batismo']->format('d/m/Y'),
+    'Data do curso: ' . $cicloBatismo['curso']->format('d/m/Y'),
+    'Data do batismo: ' . $cicloBatismo['batismo']->format('d/m/Y') . ' as 10h',
   ];
 
   if ($mensagem !== '') {
     $linhas[] = 'Observacoes: ' . $mensagem;
   }
+
+  $linhas[] = '';
+  $linhas[] = 'Aguardo orientacoes sobre os proximos passos e documentos.';
 
   return 'https://wa.me/551142589355?text=' . rawurlencode(implode("\n", $linhas));
 }
@@ -103,6 +120,7 @@ $checklistBatismo = [
 ];
 
 $cicloBatismo = proximo_ciclo_batismo();
+$resumoBatismo = resumo_contagem_batismo($cicloBatismo['batismo']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
@@ -169,20 +187,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        $pdo = get_db_connection();
-        garantir_tabela_atendimentos_secretaria($pdo);
+        if ($assuntoSelecionado === 'batismo') {
+          $sucesso = 'Inscricao preparada com sucesso. Voce sera encaminhado ao WhatsApp da paroquia.';
+          $whatsappRedirectUrl = montar_link_whatsapp_batismo(
+            $nomeContato,
+            $telefone,
+            $email,
+            $nomeInteressado,
+            $mensagem,
+            $cicloBatismo
+          );
+        } else {
+          $pdo = get_db_connection();
+          garantir_tabela_atendimentos_secretaria($pdo);
 
-        $stmt = $pdo->prepare(
+          $stmt = $pdo->prepare(
             'INSERT INTO secretaria_atendimentos (
-                assunto, nome_contato, email, telefone, nome_interessado, item_desejado,
-                mensagem, checklist_json, deseja_agendar, status
+              assunto, nome_contato, email, telefone, nome_interessado, item_desejado,
+              mensagem, checklist_json, deseja_agendar, status
             ) VALUES (
-                :assunto, :nome_contato, :email, :telefone, :nome_interessado, :item_desejado,
-                :mensagem, :checklist_json, :deseja_agendar, :status
+              :assunto, :nome_contato, :email, :telefone, :nome_interessado, :item_desejado,
+              :mensagem, :checklist_json, :deseja_agendar, :status
             )'
-        );
+          );
 
-        $stmt->execute([
+          $stmt->execute([
             'assunto' => $assuntoSelecionado,
             'nome_contato' => $nomeContato,
             'email' => $email,
@@ -193,22 +222,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'checklist_json' => $checklist !== [] ? json_encode($checklist, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null,
             'deseja_agendar' => $desejaAgendar ? 1 : 0,
             'status' => 'novo',
-        ]);
+          ]);
 
-        $protocolo = str_pad((string) $pdo->lastInsertId(), 5, '0', STR_PAD_LEFT);
-        $sucesso = 'Pedido enviado com sucesso. A secretaria vai retornar pelos contatos informados.';
-
-        if ($assuntoSelecionado === 'batismo') {
-          $sucesso = 'Inscricao enviada com sucesso. Voce sera encaminhado ao WhatsApp da paroquia com a mensagem pronta.';
-          $whatsappRedirectUrl = montar_link_whatsapp_batismo(
-            $nomeContato,
-            $telefone,
-            $email,
-            $nomeInteressado,
-            $mensagem,
-            $protocolo,
-            $cicloBatismo
-          );
+          $protocolo = str_pad((string) $pdo->lastInsertId(), 5, '0', STR_PAD_LEFT);
+          $sucesso = 'Pedido enviado com sucesso. A secretaria vai retornar pelos contatos informados.';
         }
 
         $dados = [];
@@ -583,7 +600,8 @@ if ($erro !== '' && $assuntoSelecionado !== '') {
           <div>
             <strong>Celebracao</strong>
             Ultimo domingo do mes, missa das 10h<br>
-            Proxima data: <?= h($cicloBatismo['batismo']->format('d/m/Y')) ?>
+            Proxima data: <?= h($cicloBatismo['batismo']->format('d/m/Y')) ?><br>
+            <?= h($resumoBatismo) ?>
           </div>
           <div>
             <strong>Taxa paroquial</strong>
