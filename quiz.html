@@ -70,6 +70,53 @@
         #next-btn {
             margin-top: 2rem;
         }
+
+        .result-form {
+            margin-top: 1.3rem;
+            display: flex;
+            gap: 0.7rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .result-form input {
+            min-width: 220px;
+            border: 1px solid #ddd;
+            border-radius: 999px;
+            padding: 0.7rem 1rem;
+            font: inherit;
+        }
+
+        .ranking-wrap {
+            margin-top: 2rem;
+            text-align: left;
+        }
+
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .ranking-table th,
+        .ranking-table td {
+            border-bottom: 1px solid #eee;
+            padding: 0.6rem;
+            font-size: 0.95rem;
+        }
+
+        .ranking-table th {
+            background: #fff7df;
+        }
+
+        @media (max-width: 768px) {
+            .quiz-container {
+                padding: 1.4rem;
+            }
+
+            .question-text {
+                font-size: 1.2rem;
+            }
+        }
     </style>
 </head>
 
@@ -85,10 +132,15 @@
         <nav>
             <ul class="nav-links" id="nav-links">
                 <li><a href="index.html">Início</a></li>
+                <li><a href="index.html#missas">Missas</a></li>
+                <li><a href="index.html#liturgia">Liturgia</a></li>
+                <li><a href="index.html#biblia">Bíblia</a></li>
                 <li><a href="novenas.html">Novenas</a></li>
                 <li><a href="oracoes.html">Orações</a></li>
+                <li><a href="documentos-igreja.html">Documentos</a></li>
                 <li><a href="teologia.html">Teologia</a></li>
                 <li><a href="quiz.html" style="color: var(--gold);">Quiz</a></li>
+                <li><a href="index.html#contato">Contato</a></li>
             </ul>
         </nav>
     </header>
@@ -116,6 +168,13 @@
                     <h2>Resultado Final</h2>
                     <div class="score-display" id="score">0/0</div>
                     <p id="feedback-msg">Parabéns!</p>
+                    <p id="performance-badge"></p>
+
+                    <form id="save-score-form" class="result-form">
+                        <input id="player-name" type="text" maxlength="120" placeholder="Seu nome para o ranking" required>
+                        <button id="save-score-btn" type="submit" class="btn">Salvar no ranking</button>
+                    </form>
+                    <p id="save-status" style="margin-top: .8rem;"></p>
 
                     <div id="rating-display" style="margin: 2rem 0;">
                         <p>O que achou do Quiz?</p>
@@ -137,6 +196,13 @@
                         style="border-color: var(--gold); color: var(--gold); margin-right: 1rem;">Compartilhar
                         Resultado</button>
                     <button onclick="location.reload()" class="btn">Jogar Novamente</button>
+
+                    <div class="ranking-wrap">
+                        <h3>Ranking da Comunidade</h3>
+                        <div id="ranking-container">
+                            <p>Carregando ranking...</p>
+                        </div>
+                    </div>
                 </div>
 
                 <button id="next-btn" class="btn hidden">Próxima Pergunta</button>

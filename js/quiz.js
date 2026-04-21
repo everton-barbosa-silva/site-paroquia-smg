@@ -44,6 +44,7 @@ shuffleArray(questions);
 
 let currentQuestion = 0;
 let score = 0;
+let scoreSaved = false;
 
 const questionEl = document.getElementById('question');
 const optionsEl = document.getElementById('options');
@@ -53,6 +54,11 @@ const resultBox = document.getElementById('result-container');
 const scoreEl = document.getElementById('score');
 const feedbackEl = document.getElementById('feedback-msg');
 const ratingSection = document.getElementById('rating-section');
+const performanceBadge = document.getElementById('performance-badge');
+const saveForm = document.getElementById('save-score-form');
+const playerNameInput = document.getElementById('player-name');
+const saveStatus = document.getElementById('save-status');
+const rankingContainer = document.getElementById('ranking-container');
 
 function loadQuestion() {
     const q = questions[currentQuestion];
@@ -107,13 +113,19 @@ function showResults() {
     const percentage = (score / questions.length) * 100;
     if (percentage === 100) {
         feedbackEl.textContent = "Perfeito! Você é um especialista na fé!";
+        performanceBadge.textContent = "Desempenho: Excelente";
     } else if (percentage >= 70) {
         feedbackEl.textContent = "Muito bem! Ótimos conhecimentos.";
+        performanceBadge.textContent = "Desempenho: Muito bom";
     } else if (percentage >= 50) {
         feedbackEl.textContent = "Bom trabalho! Continue estudando.";
+        performanceBadge.textContent = "Desempenho: Bom";
     } else {
         feedbackEl.textContent = "Que tal estudar um pouco mais?";
+        performanceBadge.textContent = "Desempenho: Continue firme";
     }
+
+    loadRanking();
 }
 
 function rateQuiz(stars) {
@@ -144,6 +156,105 @@ function shareResult() {
             alert("Não foi possível copiar automaticamente. Tire um print e compartilhe!");
         });
     }
+}
+
+async function saveScore(name) {
+    const res = await fetch('quiz-api.php?action=save', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            nome: name,
+            pontuacao: score,
+            total_perguntas: questions.length
+        })
+    });
+
+    const data = await res.json();
+    if (!res.ok || !data.ok) {
+        throw new Error(data.error || 'Falha ao salvar pontuação.');
+    }
+
+    return data;
+}
+
+function formatDateBR(dateText) {
+    const d = new Date(dateText);
+    if (Number.isNaN(d.getTime())) return '';
+    return d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+}
+
+async function loadRanking() {
+    try {
+        const res = await fetch('quiz-api.php?action=ranking');
+        const data = await res.json();
+
+        if (!res.ok || !data.ok || !Array.isArray(data.ranking)) {
+            throw new Error('Erro ao carregar ranking');
+        }
+
+        if (data.ranking.length === 0) {
+            rankingContainer.innerHTML = '<p>Ainda não há pontuações registradas. Seja o primeiro!</p>';
+            return;
+        }
+
+        const rows = data.ranking.map((item, index) => {
+            return `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${item.nome}</td>
+                    <td>${item.pontuacao}/${item.total_perguntas}</td>
+                    <td>${Number(item.percentual).toFixed(2)}%</td>
+                    <td>${formatDateBR(item.created_at)}</td>
+                </tr>
+            `;
+        }).join('');
+
+        rankingContainer.innerHTML = `
+            <table class="ranking-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nome</th>
+                        <th>Pontos</th>
+                        <th>Aproveitamento</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody>${rows}</tbody>
+            </table>
+        `;
+    } catch (err) {
+        rankingContainer.innerHTML = '<p>Não foi possível carregar o ranking agora.</p>';
+    }
+}
+
+if (saveForm) {
+    saveForm.addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        if (scoreSaved) {
+            saveStatus.textContent = 'Sua pontuação já foi salva nesta rodada.';
+            return;
+        }
+
+        const name = (playerNameInput.value || '').trim();
+        if (name.length < 2) {
+            saveStatus.textContent = 'Informe um nome válido com pelo menos 2 letras.';
+            return;
+        }
+
+        try {
+            saveStatus.textContent = 'Salvando sua pontuação...';
+            await saveScore(name);
+            scoreSaved = true;
+            saveStatus.textContent = 'Pontuação salva com sucesso no ranking!';
+            loadRanking();
+        } catch (err) {
+            saveStatus.textContent = 'Não foi possível salvar agora. Tente novamente.';
+        }
+    });
 }
 
 // Start

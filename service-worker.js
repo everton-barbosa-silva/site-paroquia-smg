@@ -1,12 +1,21 @@
-const CACHE_NAME = 'paroquia-smg-v1';
+const CACHE_NAME = 'paroquia-smg-v3';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
+    './novenas.html',
+    './oracoes.html',
+    './teologia.html',
+    './quiz.html',
+    './documentos-igreja.html',
     './style.css',
+    './js/app.js',
     './js/liturgy.js',
     './js/quiz.js',
     './js/share.js',
     './assets/favicon.png',
+    './assets/icon-192.png',
+    './assets/icon-512.png',
+    './assets/santa-maria-goretti-public-domain.jpg',
     './assets/igreja.jpg',
     './assets/padre.jpg',
     './assets/whats.png'

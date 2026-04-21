@@ -101,6 +101,46 @@
         source.innerHTML = 'Fonte: <a href="https://liturgia.up.railway.app" target="_blank">API Liturgia Diária</a>';
         card.appendChild(source);
 
+        const shareWrap = document.createElement('div');
+        shareWrap.style.marginTop = '1.2rem';
+
+        const shareBtn = document.createElement('button');
+        shareBtn.type = 'button';
+        shareBtn.className = 'btn';
+        shareBtn.textContent = 'Compartilhar no Instagram';
+
+        shareBtn.addEventListener('click', async function () {
+            const msg = 'Hoje eu li a liturgia catolica no site paroquiasmg.com.br';
+            const shareUrl = window.location.origin + '/index.html#liturgia';
+
+            try {
+                if (navigator.share) {
+                    await navigator.share({
+                        title: 'Liturgia Catolica',
+                        text: msg,
+                        url: shareUrl
+                    });
+                    return;
+                }
+            } catch (err) {
+                // Usuário pode cancelar o compartilhamento nativo.
+            }
+
+            try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    await navigator.clipboard.writeText(msg + ' ' + shareUrl);
+                }
+            } catch (err) {
+                // Ignora erro de área de transferência.
+            }
+
+            window.open('https://www.instagram.com/', '_blank');
+            alert('Texto pronto para colar no Story: ' + msg);
+        });
+
+        shareWrap.appendChild(shareBtn);
+        card.appendChild(shareWrap);
+
         root.appendChild(card);
     }
 

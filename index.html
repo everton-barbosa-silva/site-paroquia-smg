@@ -28,13 +28,16 @@
     <nav>
       <ul class="nav-links" id="nav-links">
         <li><a href="index.html">Início</a></li>
-        <li><a href="#missas">Missas</a></li>
-        <li><a href="#liturgia">Liturgia</a></li>
+        <li><a href="index.html#missas">Missas</a></li>
+        <li><a href="index.html#liturgia">Liturgia</a></li>
+        <li><a href="index.html#biblia">Bíblia</a></li>
+        <li><a href="#homilia-papa">Homilia do Papa</a></li>
         <li><a href="novenas.html">Novenas</a></li>
         <li><a href="oracoes.html">Orações</a></li>
+        <li><a href="documentos-igreja.html">Documentos</a></li>
         <li><a href="teologia.html">Teologia</a></li>
         <li><a href="quiz.html">Quiz</a></li>
-        <li><a href="#contato">Contato</a></li>
+        <li><a href="index.html#contato">Contato</a></li>
       </ul>
     </nav>
   </header>
@@ -46,6 +49,49 @@
       <p>Um lugar de fé, oração e comunhão.</p>
       <a href="#missas" class="btn">Horários de Missa</a>
       <a href="#liturgia" class="btn btn-outline">Liturgia Diária</a>
+    </div>
+  </section>
+
+  <section id="app" class="section app-showcase">
+    <div class="container">
+      <div class="app-card">
+        <div class="app-photo-wrap">
+          <img src="assets/santa-maria-goretti-public-domain.jpg" alt="Santa Maria Goretti - foto historica" class="app-photo">
+        </div>
+        <div class="app-copy">
+          <h2>Leve o App da Paróquia no celular</h2>
+          <p>Instale no Android ou iPhone para acessar missas, orações, liturgia e inscrições com mais praticidade.</p>
+          <button id="install-cta" class="btn" type="button">Instalar App</button>
+          <p class="app-license-note">Imagem historica de Santa Maria Goretti (1902), dominio publico via Wikimedia Commons.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="homilia-papa" class="section pope-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Homilia do Santo Padre</h2>
+        <p>Texto e links oficiais para acompanhar as homilias do Papa.</p>
+      </div>
+
+      <div id="pope-homily-root" class="card pope-homily-card">
+        <p>Carregando homilia mais recente...</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="biblia" class="section" style="background: linear-gradient(135deg, #fff8e8 0%, #fff 100%);">
+    <div class="container center">
+      <div class="section-title">
+        <h2>Bíblia Online</h2>
+        <p>Acesse gratuitamente a Sagrada Escritura e continue sua leitura diária.</p>
+      </div>
+      <div class="card" style="max-width: 760px; margin: 0 auto;">
+        <h3>Leitura Bíblica Gratuita</h3>
+        <p>Texto oficial disponível no portal do Vaticano, sem custo.</p>
+        <a href="https://www.vatican.va/archive/bible/index_po.htm" target="_blank" rel="noopener noreferrer" class="btn">Abrir Bíblia</a>
+      </div>
     </div>
   </section>
 
@@ -75,17 +121,50 @@
     </div>
   </section>
 
-  <!-- Secretaria -->
-  <section class="section" style="background-color: var(--gold-light);">
-    <div class="container center">
-      <div class="section-title">
-        <h2>Secretaria Paroquial</h2>
-      </div>
-      <div class="card" style="display: inline-block; max-width: 400px;">
-        <h3>Horário de Atendimento</h3>
-        <p style="font-size: 1.1rem; margin-top: 1rem;">De terça a sexta-feira</p>
-        <h4 style="font-size: 1.5rem; color: var(--gold-dark); margin-top: 0.5rem;">9h às 16h</h4>
-      </div>
+  <!-- Secretaria CTA -->
+  <section style="
+    background: linear-gradient(145deg, #1a1206 0%, #2c1e04 60%, #3d2c06 100%);
+    padding: 5rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  ">
+    <!-- decorative circle -->
+    <div style="
+      position: absolute; top: -60px; right: -60px;
+      width: 280px; height: 280px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,175,55,.18) 0%, transparent 70%);
+      pointer-events: none;
+    "></div>
+    <div style="position: relative; z-index: 1; max-width: 600px; margin: 0 auto;">
+      <div style="font-size: 3rem; margin-bottom: 1rem;">✝</div>
+      <h2 style="
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(1.8rem, 5vw, 2.8rem);
+        color: var(--gold);
+        margin: 0 0 .8rem;
+        line-height: 1.25;
+      ">Precisa falar com a secretaria?</h2>
+      <p style="color: rgba(255,255,255,.75); font-size: 1.05rem; margin: 0 0 2rem; line-height: 1.6;">
+        Batismo, casamento ou itens religiosos &mdash; escolha o assunto e envie sua solicitacao diretamente para a equipe da paroquia.
+      </p>
+      <a href="fale-com-a-secretaria.php" style="
+        display: inline-block;
+        background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+        color: #1a1206;
+        font-weight: 700;
+        font-size: 1.05rem;
+        padding: .85rem 2.2rem;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: opacity .2s, transform .15s;
+        box-shadow: 0 4px 20px rgba(212,175,55,.35);
+      " onmouseover="this.style.opacity='.88';this.style.transform='translateY(-2px)'" onmouseout="this.style.opacity='1';this.style.transform='none'">
+        Falar com a Secretaria &rarr;
+      </a>
+      <p style="color: rgba(255,255,255,.4); font-size: .8rem; margin-top: 1.2rem;">
+        Atendimento presencial: terca a sexta, das 9h as 16h
+      </p>
     </div>
   </section>
 
@@ -165,7 +244,8 @@
         <h2>Batismo</h2>
         <p>Inicie a vida cristã na comunidade.</p>
       </div>
-      <a href="batismo.html" class="btn">Ver Documentos Necessários</a>
+      <a href="batismo.html" class="btn">Ver Documentos Necessarios</a>
+      <a href="fale-com-a-secretaria.php?tipo=batismo" class="btn btn-outline" style="margin-left: .8rem; border-color: var(--gold-dark); color: var(--gold-dark);">Fazer Inscrição</a>
     </div>
   </section>
 
@@ -223,6 +303,7 @@
           <h4>Links Rápidos</h4>
           <a href="#missas">Horários de Missa</a>
           <a href="#liturgia">Liturgia Diária</a>
+          <a href="documentos-igreja.html">Documentos da Igreja</a>
           <a href="novenas.html">Novenas</a>
           <a href="oracoes.html">Orações</a>
         </div>
@@ -252,6 +333,7 @@
 
   <script src="js/app.js"></script>
   <script src="js/liturgy.js"></script>
+  <script src="js/pope-homily.js"></script>
 </body>
 
 </html>

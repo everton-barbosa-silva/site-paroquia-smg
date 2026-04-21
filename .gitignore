@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# Uploads (dados de usuarios - nao versionar)
+uploads/inscricoes/*
+!uploads/inscricoes/.gitkeep
+
+# Variaveis de ambiente
+.env
+.env.local
+
+# Editores
+.DS_Store
+Thumbs.db
+*.swp
