@@ -21,18 +21,18 @@
         </div>
         <nav>
             <ul class="nav-links" id="nav-links">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="index.html#missas">Missas</a></li>
-                <li><a href="index.html#liturgia">Liturgia</a></li>
-                <li><a href="index.html#biblia">Biblia</a></li>
-                <li><a href="novenas.html">Novenas</a></li>
-                <li><a href="oracoes.html" style="color: var(--gold);">Oracoes</a></li>
-                <li><a href="pastorais.html">Pastorais</a></li>
-                <li><a href="documentos-igreja.html">Documentos</a></li>
-                <li><a href="teologia.html">Teologia</a></li>
-                <li><a href="quiz.html">Quiz</a></li>
-                <li><a href="index.html#contato">Contato</a></li>
-            </ul>
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="index.html#missas">Missas</a></li>
+    <li><a href="index.html#liturgia">Liturgia</a></li>
+    <li><a href="index.html#biblia">Biblia</a></li>
+    <li><a href="login.html">Minha Conta</a></li>
+    <li><a href="oracoes.html" style="color: var(--gold);">Oracoes</a></li>
+    <li><a href="pastorais.html">Pastorais</a></li>
+    <li><a href="documentos-igreja.html">Documentos</a></li>
+    <li><a href="teologia.html">Teologia</a></li>
+    <li><a href="quiz.html">Quiz</a></li>
+    <li><a href="index.html#contato">Contato</a></li>
+</ul>
         </nav>
     </header>
 
@@ -70,22 +70,53 @@
                     <li>Ao final, reze a Salve Rainha e conclua com o sinal da cruz.</li>
                 </ol>
 
-                <div class="center" style="margin-top: 2rem;">
+                <div class="center" style="margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center;">
                     <a href="oracoes.html" class="btn btn-outline" style="color: var(--dark); border-color: var(--gold);">Voltar para Oracoes</a>
+                    <button id="share-terco-button" class="btn">Compartilhar no Story</button>
                 </div>
+                <p style="margin-top:1rem; color:#555; text-align:center;">Compartilhe: "Hoje rezei o terço no site paroquiasmg.com.br".</p>
             </div>
         </div>
     </section>
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 Paroquia Santa Maria Goretti.</p>
+            <p>&copy; 2026 Paróquia Santa Maria Goretti.</p>
+            <p>O site nao foi desenvolvido pela Pastoral da Comunicacao, este tem o intuito de automatizar os processos da secretaria da paroquia, e comum acordo com o Paroco responsavel, uma vez que o mesmo entender que pode ser removido, ele sera.</p>
+            <p>Site desenvolvido por programacao, e todo o conteudo encontra-se no github <a href="https://github.com/everton-barbosa-silva/site-paroquia-smg.git" target="_blank" rel="noopener noreferrer">github.com/everton-barbosa-silva/site-paroquia-smg.git</a></p>
         </div>
     </footer>
 
     <button id="install-btn">Instalar App</button>
     <script src="js/app.js"></script>
     <script src="js/terco.js"></script>
+    <script>
+      const shareTercoButton = document.getElementById('share-terco-button');
+      if (shareTercoButton) {
+        shareTercoButton.addEventListener('click', async () => {
+          const message = 'Hoje rezei o terço no site paroquiasmg.com.br';
+          if (navigator.share) {
+            try {
+              await navigator.share({
+                title: 'Santo Terço',
+                text: message,
+                url: 'https://paroquiasmg.com.br/santo-terco.html'
+              });
+            } catch (error) {
+              console.log('Compartilhamento cancelado', error);
+            }
+            return;
+          }
+
+          try {
+            await navigator.clipboard.writeText(message);
+            alert('Texto copiado! Cole no Instagram Story ou em outra rede social.');
+          } catch (error) {
+            prompt('Copie o texto abaixo para compartilhar no Story:', message);
+          }
+        });
+      }
+    </script>
 </body>
 
 </html>

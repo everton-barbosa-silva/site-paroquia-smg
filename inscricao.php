@@ -241,17 +241,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     <nav>
       <ul class="nav-links" id="nav-links">
-        <li><a href="index.html">Início</a></li>
-        <li><a href="index.html#missas">Missas</a></li>
-        <li><a href="index.html#liturgia">Liturgia</a></li>
-        <li><a href="index.html#biblia">Bíblia</a></li>
-        <li><a href="novenas.html">Novenas</a></li>
-        <li><a href="oracoes.html">Orações</a></li>
-        <li><a href="documentos-igreja.html">Documentos</a></li>
-        <li><a href="teologia.html">Teologia</a></li>
-        <li><a href="quiz.html">Quiz</a></li>
-        <li><a href="index.html#contato">Contato</a></li>
-      </ul>
+    <li><a href="index.html">Início</a></li>
+    <li><a href="index.html#missas">Missas</a></li>
+    <li><a href="index.html#liturgia">Liturgia</a></li>
+    <li><a href="index.html#biblia">Bíblia</a></li>
+    <li><a href="login.html">Minha Conta</a></li>
+    <li><a href="oracoes.html">Orações</a></li>
+    <li><a href="documentos-igreja.html">Documentos</a></li>
+    <li><a href="teologia.html">Teologia</a></li>
+    <li><a href="quiz.html">Quiz</a></li>
+    <li><a href="index.html#contato">Contato</a></li>
+</ul>
     </nav>
   </header>
 

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bíblia Online | Paróquia Santa Maria Goretti</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <header class="header">
+    <a href="index.html" class="logo">Paróquia <span>SMG</span></a>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="index.html#missas">Missas</a></li>
+        <li><a href="index.html#liturgia">Liturgia</a></li>
+        <li><a href="index.html#biblia">Bíblia</a></li>
+        <li><a href="login.html">Minha Conta</a></li>
+        <li><a href="oracoes.html">Orações</a></li>
+        <li><a href="pastorais.html">Pastorais</a></li>
+        <li><a href="documentos-igreja.html">Documentos</a></li>
+        <li><a href="teologia.html">Teologia</a></li>
+        <li><a href="quiz.html">Quiz</a></li>
+        <li><a href="index.html#contato">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero focus-hero" style="background-image: linear-gradient(rgba(22, 14, 4, 0.56), rgba(0, 0, 0, 0.68)), url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+    <div class="hero-content">
+      <h1>Bíblia Online</h1>
+      <p>Leia a Sagrada Escritura no próprio site, com pesquisa de versículos em português.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="max-width: 860px; margin: 0 auto;">
+      <div class="section-title">
+        <h2>Busque uma passagem</h2>
+        <p>Digite o livro e a referência para ler. Ex.: João 3:16, Salmo 23 ou Lucas 2.</p>
+      </div>
+
+      <div class="card" style="padding: 2rem;">
+        <form id="bible-search-form" class="form-grid">
+          <div class="sec-field">
+            <label for="bible-reference">Livro e referência</label>
+            <input id="bible-reference" name="reference" type="text" required placeholder="Ex.: João 3:16" value="João 3:16">
+          </div>
+          <div class="sec-field">
+            <label for="bible-translation">Tradução</label>
+            <select id="bible-translation" name="translation">
+              <option value="almeida">João Ferreira de Almeida</option>
+              <option value="ra">Revista e Atualizada</option>
+              <option value="acf">Almeida Corrigida e Fiel</option>
+            </select>
+          </div>
+          <div class="sec-field" style="align-self: end;">
+            <button class="btn" type="submit">Buscar</button>
+          </div>
+        </form>
+
+        <div id="bible-result" class="card" style="margin-top: 1rem; padding: 1.5rem;">
+          <p>Digite uma passagem e clique em Buscar para ver o texto.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div>
+          <h4>Paróquia Santa Maria Goretti</h4>
+          <p>Levando a palavra de Deus a todos os corações.</p>
+        </div>
+        <div>
+          <h4>Links Rápidos</h4>
+          <a href="index.html#missas">Horários de Missa</a>
+          <a href="index.html#liturgia">Liturgia Diária</a>
+          <a href="oracoes.html">Orações</a>
+          <a href="pastorais.html">Pastorais</a>
+        </div>
+        <div>
+          <h4>Siga-nos</h4>
+          <a href="https://www.instagram.com/paroquiasantamariagoretti/" target="_blank">Instagram Paróquia</a>
+          <a href="https://www.instagram.com/grupo.divinaluz/" target="_blank">Instagram Grupo de Oração</a>
+        </div>
+        <div>
+          <h4>Contato</h4>
+          <p>Rua Holdo Botto Malanconi, 355</p>
+          <p>São Paulo - SP</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+                <p>&copy; 2025 Paróquia Santa Maria Goretti. Todos os direitos reservados.</p>
+                <p>O site nao foi desenvolvido pela Pastoral da Comunicacao, este tem o intuito de automatizar os processos da secretaria da paroquia, e comum acordo com o Paroco responsavel, uma vez que o mesmo entender que pode ser removido, ele sera.</p>
+                <p>Site desenvolvido por programacao, e todo o conteudo encontra-se no github <a href="https://github.com/everton-barbosa-silva/site-paroquia-smg.git" target="_blank" rel="noopener noreferrer">github.com/everton-barbosa-silva/site-paroquia-smg.git</a></p>
+            </div>
+    </div>
+  </footer>
+
+  <button id="install-btn">Instalar App</button>
+  <script src="js/app.js"></script>
+  <script src="js/bible.js"></script>
+</body>
+</html>

@@ -189,18 +189,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 throw new RuntimeException('Informe o nome da crianca que sera batizada.');
             }
 
-            $checklist = [];
-            foreach ($checklistBatismo as $campo => $rotulo) {
-                $checklist[$campo] = [
-                    'rotulo' => $rotulo,
-                    'ok' => checkbox_marcado($dados, $campo),
-                    'obrigatorio' => $campo !== 'doc_casamento_padrinhos',
-                ];
-            }
+            $requiredFiles = [
+                'file_certidao_batizando' => 'Certidao de nascimento da crianca',
+                'file_doc_pais' => 'Documentos dos pais da crianca',
+                'file_doc_residencia' => 'Comprovante de residencia',
+                'file_doc_padrinhos' => 'Documentos dos padrinhos (CPF e RG)',
+            ];
 
-            foreach ($checklist as $item) {
-                if ($item['obrigatorio'] && $item['ok'] !== true) {
-                    throw new RuntimeException('Marque todos os documentos obrigatorios antes de solicitar o agendamento do batismo.');
+            foreach ($requiredFiles as $field => $label) {
+                if (empty($_FILES[$field]['name']) || $_FILES[$field]['error'] !== UPLOAD_ERR_OK) {
+                    throw new RuntimeException('Anexe ' . $label . ' antes de solicitar o agendamento do batismo. Os arquivos nao sao salvos no site.');
                 }
             }
         }
@@ -504,17 +502,17 @@ if ($erro !== '' && $assuntoSelecionado !== '') {
     </div>
     <nav>
       <ul class="nav-links" id="nav-links">
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="index.html#missas">Missas</a></li>
-        <li><a href="index.html#liturgia">Liturgia</a></li>
-        <li><a href="index.html#biblia">Biblia</a></li>
-        <li><a href="novenas.html">Novenas</a></li>
-        <li><a href="oracoes.html">Oracoes</a></li>
-        <li><a href="documentos-igreja.html">Documentos</a></li>
-        <li><a href="teologia.html">Teologia</a></li>
-        <li><a href="quiz.html">Quiz</a></li>
-        <li><a href="index.html#contato">Contato</a></li>
-      </ul>
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="index.html#missas">Missas</a></li>
+    <li><a href="index.html#liturgia">Liturgia</a></li>
+    <li><a href="index.html#biblia">Biblia</a></li>
+    <li><a href="login.html">Minha Conta</a></li>
+    <li><a href="oracoes.html">Oracoes</a></li>
+    <li><a href="documentos-igreja.html">Documentos</a></li>
+    <li><a href="teologia.html">Teologia</a></li>
+    <li><a href="quiz.html">Quiz</a></li>
+    <li><a href="index.html#contato">Contato</a></li>
+</ul>
     </nav>
   </header>
 
@@ -619,15 +617,10 @@ if ($erro !== '' && $assuntoSelecionado !== '') {
 
       <?php if ($erro): ?><div class="alert alert-error"><?= h($erro) ?></div><?php endif; ?>
 
-      <form method="post" novalidate>
+      <form id="batismo-form" method="post" enctype="multipart/form-data" novalidate>
         <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
         <input type="hidden" name="assunto" value="batismo">
         <input type="hidden" name="deseja_agendar" value="1">
-        <input type="hidden" name="doc_certidao_batizando" value="1">
-        <input type="hidden" name="doc_pais" value="1">
-        <input type="hidden" name="doc_residencia" value="1">
-        <input type="hidden" name="doc_padrinhos" value="1">
-        <input type="hidden" name="doc_casamento_padrinhos" value="0">
         <div class="sec-field">
           <label for="b_nome">Seu nome (responsavel)</label>
           <input id="b_nome" name="nome_contato" type="text" required value="<?= h(valor_campo($dados, 'nome_contato')) ?>">
@@ -645,9 +638,26 @@ if ($erro !== '' && $assuntoSelecionado !== '') {
           <input id="b_email" name="email" type="email" required value="<?= h(valor_campo($dados, 'email')) ?>">
         </div>
         <div class="sec-field">
+          <label for="file_certidao_batizando">Certidao de nascimento da crianca <span style="color:#b8860b;">*</span></label>
+          <input id="file_certidao_batizando" name="file_certidao_batizando" type="file" accept=".pdf,.jpg,.jpeg,.png" required>
+        </div>
+        <div class="sec-field">
+          <label for="file_doc_pais">Documentos dos pais da crianca <span style="color:#b8860b;">*</span></label>
+          <input id="file_doc_pais" name="file_doc_pais" type="file" accept=".pdf,.jpg,.jpeg,.png" required>
+        </div>
+        <div class="sec-field">
+          <label for="file_doc_residencia">Comprovante de residencia <span style="color:#b8860b;">*</span></label>
+          <input id="file_doc_residencia" name="file_doc_residencia" type="file" accept=".pdf,.jpg,.jpeg,.png" required>
+        </div>
+        <div class="sec-field">
+          <label for="file_doc_padrinhos">Documentos dos padrinhos (CPF e RG) <span style="color:#b8860b;">*</span></label>
+          <input id="file_doc_padrinhos" name="file_doc_padrinhos" type="file" accept=".pdf,.jpg,.jpeg,.png" required>
+        </div>
+        <div class="sec-field">
           <label for="b_obs">Observacoes (opcional)</label>
           <textarea id="b_obs" name="mensagem" rows="3" placeholder="Ex.: data preferida, duvidas sobre documentos..."><?= h(valor_campo($dados, 'mensagem')) ?></textarea>
         </div>
+        <p style="font-size:.9rem; color:#444; margin-bottom:1rem;">Os documentos serao encaminhados para o WhatsApp da paroquia e nao serao salvos permanentemente no site.</p>
         <button type="submit" class="sec-btn">Enviar inscricao</button>
       </form>
     </div>
@@ -741,8 +751,12 @@ if ($erro !== '' && $assuntoSelecionado !== '') {
   <?php endif; ?>
 
   <footer class="footer">
-    <p style="margin-bottom:.3rem;opacity:.6;font-size:.8rem;">Secretaria: terca a sexta, das 9h as 16h &nbsp;|&nbsp; WhatsApp: (11) 4258-9355</p>
-    <p>&copy; 2026 Paroquia Santa Maria Goretti | Rua Holdo Botto Malanconi, 355</p>
+    <div class="container">
+      <p style="margin-bottom:.3rem;opacity:.6;font-size:.8rem;">Secretaria: terca a sexta, das 9h as 16h &nbsp;|&nbsp; WhatsApp: (11) 4258-9355</p>
+      <p>&copy; 2026 Paroquia Santa Maria Goretti | Rua Holdo Botto Malanconi, 355</p>
+      <p>O site nao foi desenvolvido pela Pastoral da Comunicacao, este tem o intuito de automatizar os processos da secretaria da paroquia, e comum acordo com o Paroco responsavel, uma vez que o mesmo entender que pode ser removido, ele sera.</p>
+      <p>Site desenvolvido por programacao, e todo o conteudo encontra-se no github <a href="https://github.com/everton-barbosa-silva/site-paroquia-smg.git" target="_blank" rel="noopener noreferrer">github.com/everton-barbosa-silva/site-paroquia-smg.git</a></p>
+    </div>
   </footer>
 
   <a href="https://wa.me/551142589355" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
@@ -750,6 +764,29 @@ if ($erro !== '' && $assuntoSelecionado !== '') {
   </a>
 
   <script src="js/app.js"></script>
+  <script>
+    const batismoForm = document.getElementById('batismo-form');
+    if (batismoForm) {
+      batismoForm.addEventListener('submit', function (event) {
+        const requiredFiles = [
+          'file_certidao_batizando',
+          'file_doc_pais',
+          'file_doc_residencia',
+          'file_doc_padrinhos'
+        ];
+
+        const missing = requiredFiles.filter((name) => {
+          const input = document.getElementById(name);
+          return !input || !input.files || input.files.length === 0;
+        });
+
+        if (missing.length > 0) {
+          event.preventDefault();
+          alert('Selecione todos os documentos obrigatórios antes de enviar. Os arquivos não serão armazenados no site.');
+        }
+      });
+    }
+  </script>
   <?php if ($whatsappRedirectUrl !== ''): ?>
   <script>
     window.setTimeout(function () {

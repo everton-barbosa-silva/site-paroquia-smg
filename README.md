@@ -46,5 +46,17 @@ O site é hospedado em um bucket S3 da AWS. Para atualizar:
 aws s3 sync . s3://paroquiasmg.com.br --exclude ".git/*" --exclude "README.md"
 ```
 
+## 🔐 Segredos e credenciais
+- O arquivo `.env` não deve ser versionado. Ele já está incluído em `.gitignore`.
+- Use variáveis de ambiente no servidor ou no GitHub Actions Secrets:
+  - `DB_HOST`
+  - `DB_PORT`
+  - `DB_NAME`
+  - `DB_USER`
+  - `DB_PASS`
+- O código atual carrega a conexão do banco via variáveis de ambiente, então as credenciais não ficam expostas no repositório.
+- Para ativar o login com Google, o `GOOGLE_CLIENT_ID` já está configurado em `js/google-auth.js`.
+- A **chave secreta** (client secret) não deve ser colocada em arquivos públicos ou no repositório. Ela só deve ser usada em um backend seguro se você implementar o fluxo OAuth 2.0 servidor a servidor.
+
 ---
 *Desenvolvido com carinho para a comunidade de Santa Maria Goretti.*
