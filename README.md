@@ -1,49 +1,51 @@
-# Paróquia Santa Maria Goretti - Website
+# Deovero - Fé e Espiritualidade
 
-Este é o repositório do site estático da Paróquia Santa Maria Goretti. O site foi modernizado para oferecer uma experiência premium, com novas funcionalidades de liturgia, orações e interatividade.
+Este é o repositório do site Deovero, um espaço católico para aprofundar a fé com Bíblia online, orações, liturgia diária, homilias do Papa e conteúdos espirituais.
 
 ## 🚀 Funcionalidades
 
-### 1. Design Premium
-- Interface moderna com cores douradas e escuras.
-- Totalmente responsivo (Mobile/Desktop).
-- Animações suaves e tipografia elegante.
+### 1. Bíblia Online
+- Busca interativa de versículos em português (João Ferreira de Almeida).
+- Interface simples para ler passagens específicas.
 
 ### 2. Liturgia Diária
 - Integração com API de Liturgia.
-- **Novo**: Seletor de data para visualizar a liturgia de qualquer dia.
+- Seletor de data para visualizar leituras de qualquer dia.
 
-### 3. Novenas Online
-- **Novena de Natal**
-- **Novena de São José**
-- **Novena a Santa Maria Goretti**
-- Botão de compartilhamento "Benção" para redes sociais.
-
-### 4. Orações e Espiritualidade
+### 3. Orações e Espiritualidade
 - **Orações Comuns**: Pai Nosso, Ave Maria, Credo, Salve Rainha.
 - **Santo Terço**: Guia visual passo a passo dos mistérios.
 
-### 5. Interatividade
-- **Quiz Católico**: Jogo de perguntas e respostas com 30 questões, pontuação e compartilhamento.
-- **Instagram**: Links diretos para as redes sociais da paróquia.
+### 4. Homilia do Papa
+- Texto e links oficiais das homilias mais recentes.
+
+### 5. Conteúdos Educativos
+- **Documentos da Igreja**: Textos oficiais do Magistério.
+- **Teologia**: Estudos bíblicos e explicações.
+- **Quiz Católico**: Jogo de perguntas e respostas com pontuação.
+
+### 6. Minha Conta
+- Login com Google para rastrear dias de leitura (Bíblia, Liturgia, Oração).
+- Dados armazenados localmente no navegador.
 
 ## 🛠️ Tecnologias
 - **HTML5 & CSS3**: Estrutura e estilização (Vanilla).
-- **JavaScript**: Lógica para API de liturgia, Quiz e Compartilhamento.
+- **JavaScript**: Lógica para APIs de liturgia, Bíblia e autenticação.
 - **AWS S3**: Hospedagem estática.
 
 ## 📂 Estrutura de Arquivos
 - `index.html`: Página inicial.
-- `style.css`: Estilos globais.
-- `js/`: Scripts (liturgy.js, quiz.js, share.js).
-- `assets/`: Imagens e ícones.
-- `novenas.html`, `oracoes.html`: Páginas de aterrissagem de conteúdo.
+- `biblia.html`: Bíblia online.
+- `login.html`: Minha conta com Google.
+- `oracoes.html`, `teologia.html`, etc.: Páginas de conteúdo.
+- `js/`: Scripts (bible.js, google-auth.js, liturgy.js, quiz.js, share.js).
+- `assets/`: Ícones e imagens.
 
 ## 📦 Como Fazer Deploy
 O site é hospedado em um bucket S3 da AWS. Para atualizar:
 
 ```bash
-aws s3 sync . s3://paroquiasmg.com.br --exclude ".git/*" --exclude "README.md"
+aws s3 sync . s3://deovero.com.br --exclude ".git/*" --exclude "README.md"
 ```
 
 ## 🔐 Segredos e credenciais
@@ -59,4 +61,4 @@ aws s3 sync . s3://paroquiasmg.com.br --exclude ".git/*" --exclude "README.md"
 - A **chave secreta** (client secret) não deve ser colocada em arquivos públicos ou no repositório. Ela só deve ser usada em um backend seguro se você implementar o fluxo OAuth 2.0 servidor a servidor.
 
 ---
-*Desenvolvido com carinho para a comunidade de Santa Maria Goretti.*
+*Desenvolvido com carinho para a comunidade católica.*

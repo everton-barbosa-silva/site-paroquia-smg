@@ -18,9 +18,6 @@ const ASSETS_TO_CACHE = [
     './assets/favicon.png',
     './assets/icon-192.png',
     './assets/icon-512.png',
-    './assets/santa-maria-goretti-public-domain.jpg',
-    './assets/igreja.jpg',
-    './assets/padre.jpg',
     './assets/whats.png'
 ];
 
